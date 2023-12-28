@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local'],
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -20,8 +21,6 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USERNAME,
       synchronize: true,
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
-      migrations: [`${__dirname}/migrations/{.ts,*.js}`],
-      migrationsRun: true,
     }),
     UsersModule,
     AuthModule,

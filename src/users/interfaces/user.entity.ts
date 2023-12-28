@@ -11,6 +11,9 @@ export class UserEntity {
   @Column({ name: 'updated_at', nullable: true })
   updatedAt: Date;
 
+  @Column({ default: true })
+  status: boolean;
+
   @Column()
   name: string;
 

@@ -25,4 +25,7 @@ export class UserEntity {
 
   @Column()
   password: string;
+
+  @Column({ name: 'profile_id', default: 2 })
+  profileId: number;
 }

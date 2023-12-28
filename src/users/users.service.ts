@@ -27,15 +27,25 @@ export class UsersService {
     const passwordHashed = await bcrypt.hash(password, salt);
 
     const user = await this.userRepository.save({
-      createdAt: new Date(),
       ...createUserDto,
+      createdAt: new Date(),
       password: passwordHashed,
     });
     return { ...user, password: undefined };
   }
 
   async findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: [
+        'id',
+        'name',
+        'email',
+        'createdAt',
+        'updatedAt',
+        'phone',
+        'status',
+      ],
+    });
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

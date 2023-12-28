@@ -12,7 +12,7 @@ export class PortFolioEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column({ name: 'created_at' })
+  @Column({ name: 'created_at', nullable: false })
   createdAt: Date;
 
   @Column({ name: 'updated_at', nullable: true })
@@ -21,8 +21,11 @@ export class PortFolioEntity {
   @Column({ default: true })
   status: boolean;
 
-  @Column()
+  @Column({ nullable: false })
   name: string;
+
+  @Column({ type: 'text' })
+  apresentation: string;
 
   @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })

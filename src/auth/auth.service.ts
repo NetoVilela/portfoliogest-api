@@ -20,6 +20,7 @@ export class AuthService {
     }
 
     const isMatch = await bcrypt.compare(pass, user.password);
+
     if (!isMatch) {
       throw new HttpException(
         `Credenciais inválidas.`,
@@ -27,7 +28,12 @@ export class AuthService {
       );
     }
 
-    const payload = { userId: user.id, name: user.name, email: user.email };
+    const payload = {
+      userId: user.id,
+      name: user.name,
+      email: user.email,
+      profileId: user.profileId,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

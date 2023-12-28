@@ -1,9 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { PortfoliosService } from './portfolios.service';
 import { UserLogged } from 'src/decorators/userLogged';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 import { AuthGuard } from '../auth/auth.guard';
-// import { CreatePortfolioDto } from './dtos/createPortfolio.dto';
+import { CreatePortfolioDto } from './dtos/createPortfolio.dto';
 
 @UseGuards(AuthGuard)
 @Controller('portfolios')
@@ -12,12 +12,14 @@ export class PortfoliosController {
 
   @Get()
   async getAllPortfolios(@UserLogged() userLogged: TokenPayloadDto) {
-    console.log(userLogged);
-    return this.portfolioService.findAll();
+    return this.portfolioService.findAll(userLogged);
   }
 
-  // @Post()
-  // async createPortfolio(@Body() createPortfolio: CreatePortfolioDto, @UserLogged() userLogged: TokenPayloadDto){
-  //   return this.portfolioService.createPortfolio(createPortfolio)
-  // ) {}
+  @Post()
+  async createPortfolio(
+    @Body() createPortfolio: CreatePortfolioDto,
+    @UserLogged() userLogged: TokenPayloadDto,
+  ) {
+    return this.portfolioService.createPortfolio(createPortfolio, userLogged);
+  }
 }

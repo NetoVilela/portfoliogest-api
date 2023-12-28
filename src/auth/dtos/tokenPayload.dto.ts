@@ -1,6 +1,7 @@
 export interface TokenPayloadDto {
   userId: number;
-  coban: number;
-  loja: string;
+  profileId: number;
+  name: string;
+  email: string;
 }
 export default TokenPayloadDto;

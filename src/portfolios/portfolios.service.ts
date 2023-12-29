@@ -14,16 +14,23 @@ export class PortfoliosService {
 
   async findAll(userLogged: TokenPayloadDto) {
     const { userId, profileId } = userLogged;
+
     if (profileId === 1) {
-      return this.portfolioRepository.find();
+      return await this.portfolioRepository
+        .createQueryBuilder('portfolio')
+        .innerJoinAndSelect('portfolio.user', 'user')
+        .where({})
+        .getMany();
     } else {
-      return this.portfolioRepository.find({
-        where: {
+      return await this.portfolioRepository
+        .createQueryBuilder('portfolio')
+        .innerJoinAndSelect('portfolio.user', 'user')
+        .where({
           user: {
             id: userId,
           },
-        },
-      });
+        })
+        .getMany();
     }
   }
 

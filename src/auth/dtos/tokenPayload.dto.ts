@@ -1,5 +1,5 @@
 export interface TokenPayloadDto {
-  userId: number;
+  userId: string;
   profileId: number;
   name: string;
   email: string;

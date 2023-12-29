@@ -10,7 +10,7 @@ import {
 @Entity('portfolios')
 export class PortFolioEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ name: 'created_at', nullable: false })
   createdAt: Date;

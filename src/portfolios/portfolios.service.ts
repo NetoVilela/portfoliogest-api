@@ -19,12 +19,14 @@ export class PortfoliosService {
       return await this.portfolioRepository
         .createQueryBuilder('portfolio')
         .innerJoinAndSelect('portfolio.user', 'user')
+        .select(['portfolio', 'user.id', 'user.name'])
         .where({})
         .getMany();
     } else {
       return await this.portfolioRepository
         .createQueryBuilder('portfolio')
         .innerJoinAndSelect('portfolio.user', 'user')
+        .select(['portfolio', 'user.id', 'user.name'])
         .where({
           user: {
             id: userId,

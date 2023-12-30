@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { PortfoliosModule } from './portfolios/portfolios.module';
+import { KnowledgesModule } from './knowledges/knowledges.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PortfoliosModule } from './portfolios/portfolios.module';
     UsersModule,
     AuthModule,
     PortfoliosModule,
+    KnowledgesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

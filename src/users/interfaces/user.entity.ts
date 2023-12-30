@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { KnowledgeEntity } from 'src/knowledges/interfaces/knowledge.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
@@ -28,4 +29,7 @@ export class UserEntity {
 
   @Column({ name: 'profile_id', default: 2 })
   profileId: number;
+
+  @OneToMany(() => KnowledgeEntity, (knowledge) => knowledge.user)
+  knowledges: KnowledgeEntity[];
 }

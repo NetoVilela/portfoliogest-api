@@ -1,5 +1,6 @@
 import { UserEntity } from 'src/users/interfaces/user.entity';
 import {
+  Check,
   Column,
   Entity,
   JoinColumn,
@@ -7,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('portfolios')
-export class PortfolioEntity {
+@Entity('knowledges')
+export class KnowledgeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,7 +26,11 @@ export class PortfolioEntity {
   name: string;
 
   @Column({ type: 'text' })
-  apresentation: string;
+  description: string;
+
+  @Column({ nullable: false })
+  @Check(`"level" >= 0 AND "level" <= 10`)
+  level: number;
 
   @Column({ name: 'user_id', nullable: false })
   userId: string;

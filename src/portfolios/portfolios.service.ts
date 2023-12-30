@@ -1,15 +1,15 @@
 import { CreatePortfolioDto } from './dtos/createPortfolio.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PortFolioEntity } from './interfaces/portfolio.entity';
+import { PortfolioEntity } from './interfaces/portfolio.entity';
 import { Repository } from 'typeorm';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 
 @Injectable()
 export class PortfoliosService {
   constructor(
-    @InjectRepository(PortFolioEntity)
-    private readonly portfolioRepository: Repository<PortFolioEntity>,
+    @InjectRepository(PortfolioEntity)
+    private readonly portfolioRepository: Repository<PortfolioEntity>,
   ) {}
 
   async findAll(userLogged: TokenPayloadDto) {

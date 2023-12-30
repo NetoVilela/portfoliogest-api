@@ -42,7 +42,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  delete(@Param('id') id: number, @UserLogged() userLogged: TokenPayloadDto) {
+  delete(@Param('id') id: string, @UserLogged() userLogged: TokenPayloadDto) {
     return this.usersService.delete(id, userLogged);
   }
 }

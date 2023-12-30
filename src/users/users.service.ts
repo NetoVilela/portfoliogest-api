@@ -58,7 +58,7 @@ export class UsersService {
     });
   }
 
-  async delete(id: number, userLogged: TokenPayloadDto): Promise<DeleteResult> {
+  async delete(id: string, userLogged: TokenPayloadDto): Promise<DeleteResult> {
     const { profileId } = userLogged;
     if (profileId === 1) {
       // ADMIN
@@ -109,6 +109,7 @@ export class UsersService {
       name,
       email,
       phone,
+      updatedAt: new Date(),
       password: passwordHashed,
     });
   }

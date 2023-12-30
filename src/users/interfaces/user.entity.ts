@@ -1,3 +1,4 @@
+import { ExperienceEntity } from 'src/experiences/interfaces/experiences.entity';
 import { KnowledgeEntity } from 'src/knowledges/interfaces/knowledge.entity';
 import { ProjectEntity } from 'src/projects/interfaces/projects.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -36,4 +37,7 @@ export class UserEntity {
 
   @OneToMany(() => ProjectEntity, (project) => project.user)
   projects: ProjectEntity[];
+
+  @OneToMany(() => ExperienceEntity, (experience) => experience.user)
+  experiences: ExperienceEntity[];
 }

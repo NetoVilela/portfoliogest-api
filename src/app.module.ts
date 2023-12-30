@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PortfoliosModule } from './portfolios/portfolios.module';
 import { KnowledgesModule } from './knowledges/knowledges.module';
 import { ProjectsModule } from './projects/projects.module';
+import { ExperiencesModule } from './experiences/experiences.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProjectsModule } from './projects/projects.module';
     PortfoliosModule,
     KnowledgesModule,
     ProjectsModule,
+    ExperiencesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

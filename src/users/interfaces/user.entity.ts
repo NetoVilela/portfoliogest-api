@@ -1,4 +1,5 @@
 import { KnowledgeEntity } from 'src/knowledges/interfaces/knowledge.entity';
+import { ProjectEntity } from 'src/projects/interfaces/projects.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -32,4 +33,7 @@ export class UserEntity {
 
   @OneToMany(() => KnowledgeEntity, (knowledge) => knowledge.user)
   knowledges: KnowledgeEntity[];
+
+  @OneToMany(() => ProjectEntity, (project) => project.user)
+  projects: ProjectEntity[];
 }

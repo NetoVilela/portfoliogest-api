@@ -10,6 +10,7 @@ import { KnowledgesModule } from './knowledges/knowledges.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ExperiencesModule } from './experiences/experiences.module';
 import { CoursesModule } from './courses/courses.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CoursesModule } from './courses/courses.module';
     ProjectsModule,
     ExperiencesModule,
     CoursesModule,
+    ContactsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

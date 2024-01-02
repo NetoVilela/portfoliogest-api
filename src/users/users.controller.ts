@@ -39,7 +39,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() userUpdateData: UpdateUserDto,
     @UserLogged() userLogged: TokenPayloadDto,
-  ) {
+  ): Promise<ReturnUserDto> {
     return this.usersService.update(id, userUpdateData, userLogged);
   }
 

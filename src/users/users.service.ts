@@ -69,7 +69,7 @@ export class UsersService {
     id: string,
     userUpdateData: UpdateUserDto,
     userLogged: TokenPayloadDto,
-  ) {
+  ): Promise<ReturnUserDto> {
     const { userId, profileId } = userLogged;
     const { name, email, phone, password } = userUpdateData;
 
@@ -113,5 +113,16 @@ export class UsersService {
       updatedAt: new Date(),
       password: passwordHashed,
     });
+
+    const updatedUser = await this.usersRepository.findOne({ where: { id } });
+
+    if (!updatedUser) {
+      throw new HttpException(
+        `Usuário não encontrado`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    return new ReturnUserDto(updatedUser);
   }
 }

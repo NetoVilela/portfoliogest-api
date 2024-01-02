@@ -114,6 +114,10 @@ export class CoursesService {
       },
     });
 
+    if (!course) {
+      throw new HttpException(`Curso não encontrado`, HttpStatus.NOT_FOUND);
+    }
+
     if (profileId !== 1 && course.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar Cursos de outros usuários`,
@@ -141,6 +145,10 @@ export class CoursesService {
         id,
       },
     });
+
+    if (!course) {
+      throw new HttpException(`Curso não encontrado`, HttpStatus.NOT_FOUND);
+    }
 
     if (profileId !== 1 && course.userId !== userId) {
       throw new HttpException(

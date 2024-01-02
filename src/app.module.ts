@@ -11,6 +11,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { ExperiencesModule } from './experiences/experiences.module';
 import { CoursesModule } from './courses/courses.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -38,6 +40,12 @@ import { ContactsModule } from './contacts/contacts.module';
     ContactsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule {}

@@ -115,6 +115,13 @@ export class KnowledgesService {
       },
     });
 
+    if (!knowledge) {
+      throw new HttpException(
+        `Conhecimento não encontrado`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     if (profileId !== 1 && knowledge.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar conhecimentos de outros usuários`,
@@ -142,6 +149,13 @@ export class KnowledgesService {
         id,
       },
     });
+
+    if (!knowledge) {
+      throw new HttpException(
+        `Conhecimento não encontrado`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
     if (profileId !== 1 && knowledge.userId !== userId) {
       throw new HttpException(

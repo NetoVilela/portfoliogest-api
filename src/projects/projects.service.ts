@@ -102,6 +102,10 @@ export class ProjectsService {
       },
     });
 
+    if (!project) {
+      throw new HttpException(`Projeto não encontrado`, HttpStatus.NOT_FOUND);
+    }
+
     if (profileId !== 1 && project.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar projetos de outros usuários`,
@@ -129,6 +133,10 @@ export class ProjectsService {
         id,
       },
     });
+
+    if (!project) {
+      throw new HttpException(`Projeto não encontrado`, HttpStatus.NOT_FOUND);
+    }
 
     if (profileId !== 1 && project.userId !== userId) {
       throw new HttpException(

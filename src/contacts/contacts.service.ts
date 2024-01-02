@@ -105,6 +105,10 @@ export class ContactsService {
       },
     });
 
+    if (!contact) {
+      throw new HttpException(`Contato não encontrado`, HttpStatus.NOT_FOUND);
+    }
+
     if (profileId !== 1 && contact.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar Contatos de outros usuários`,
@@ -132,6 +136,10 @@ export class ContactsService {
         id,
       },
     });
+
+    if (!contact) {
+      throw new HttpException(`Contato não encontrado`, HttpStatus.NOT_FOUND);
+    }
 
     if (profileId !== 1 && contact.userId !== userId) {
       throw new HttpException(

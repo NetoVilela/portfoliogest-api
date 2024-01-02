@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
+import { ReturnUserDto } from './dtos/returnUser.dto';
 
 export class UsersService {
   constructor(
@@ -13,7 +14,7 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+  async createUser(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const { email } = createUserDto;
 
     const userExist = await this.usersRepository.findBy({ email });
@@ -33,24 +34,17 @@ export class UsersService {
       createdAt: new Date(),
       password: passwordHashed,
     });
-    return { ...user, password: undefined };
+
+    return new ReturnUserDto(user);
   }
 
-  async findAll() {
-    return this.usersRepository.find({
-      select: [
-        'id',
-        'name',
-        'email',
-        'createdAt',
-        'updatedAt',
-        'phone',
-        'status',
-      ],
-    });
+  async findAll(): Promise<ReturnUserDto[]> {
+    const allUsers = await this.usersRepository.find();
+
+    return allUsers.map((user) => new ReturnUserDto(user));
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     return await this.usersRepository.findOne({
       where: {
         email,
@@ -91,6 +85,13 @@ export class UsersService {
         id,
       },
     });
+
+    if (!user) {
+      throw new HttpException(
+        `Usuário não encontrado`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
 
     if (user.profileId === 1 && user.id !== userId) {
       throw new HttpException(

@@ -115,6 +115,13 @@ export class ExperiencesService {
       },
     });
 
+    if (!experience) {
+      throw new HttpException(
+        `Experiência não encontrada`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     if (profileId !== 1 && experience.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar Experiências profissionais de outros usuários`,
@@ -142,6 +149,13 @@ export class ExperiencesService {
         id,
       },
     });
+
+    if (!experience) {
+      throw new HttpException(
+        `Experiência não encontrada`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
     if (profileId !== 1 && experience.userId !== userId) {
       throw new HttpException(

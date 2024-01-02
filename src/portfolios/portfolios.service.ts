@@ -83,6 +83,10 @@ export class PortfoliosService {
       },
     });
 
+    if (!portfolio) {
+      throw new HttpException(`Portfólio não encontrado`, HttpStatus.NOT_FOUND);
+    }
+
     if (profileId !== 1 && portfolio.userId !== userId) {
       throw new HttpException(
         `Somente administradores podem editar Portfólios de outros usuários`,
@@ -110,6 +114,10 @@ export class PortfoliosService {
         id,
       },
     });
+
+    if (!portfolio) {
+      throw new HttpException(`Portfólio não encontrado`, HttpStatus.NOT_FOUND);
+    }
 
     if (profileId !== 1 && portfolio.userId !== userId) {
       throw new HttpException(

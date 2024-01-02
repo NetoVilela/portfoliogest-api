@@ -1,21 +1,22 @@
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'nestjs-zod/z';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  Min,
+} from 'class-validator';
 
-export const createUserSchema = z
-  .object({
-    name: z.string({
-      required_error: 'Obrigatório informar o nome do usuário',
-    }),
-    email: z
-      .string({
-        required_error: 'Obrigatório informar o email do usuário',
-      })
-      .email(),
-    phone: z.string(),
-    password: z.string({
-      required_error: 'Obrigatório informar uma senha para o usuário',
-    }),
-  })
-  .required();
+export class CreateUserDto {
+  @IsString()
+  @Min(3)
+  name: string;
 
-export class CreateUserDto extends createZodDto(createUserSchema) {}
+  @IsEmail()
+  email: string;
+
+  @IsOptional()
+  phone: string;
+
+  @IsNotEmpty()
+  password: string;
+}

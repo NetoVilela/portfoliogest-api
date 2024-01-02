@@ -8,14 +8,12 @@ import {
   Post,
   Put,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
-import { CreateUserDto, createUserSchema } from './dtos/createUser.dto';
+import { CreateUserDto } from './dtos/createUser.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { UserLogged } from 'src/decorators/userLogged';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
-import { ZodValidationPipe } from 'nestjs-zod';
 import { ReturnUserDto } from './dtos/returnUser.dto';
 @Controller('users')
 export class UsersController {
@@ -27,7 +25,6 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @UsePipes(new ZodValidationPipe(createUserSchema))
   @Post()
   async createUser(@Body() createUser: CreateUserDto): Promise<ReturnUserDto> {
     return this.usersService.createUser(createUser);

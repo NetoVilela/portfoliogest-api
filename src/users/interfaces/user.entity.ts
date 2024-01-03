@@ -26,7 +26,7 @@ export class UserEntity {
   @Column()
   phone: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({ name: 'profile_id', default: 2 })

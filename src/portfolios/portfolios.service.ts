@@ -5,6 +5,8 @@ import { PortfolioEntity } from './interfaces/portfolio.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 import { UpdatePortfolioDto } from './dtos/updatePortfolio.dto';
+import { ReturnPortfolioDto } from './dtos/returnPortfolio.dto';
+// import { ReturnPortfolioDto } from './dtos/returnPortfolio.dto';
 
 @Injectable()
 export class PortfoliosService {
@@ -16,33 +18,28 @@ export class PortfoliosService {
   async findAll(userLogged: TokenPayloadDto) {
     const { userId, profileId } = userLogged;
 
-    if (profileId === 1) {
-      return await this.portfolioRepository
-        .createQueryBuilder('portfolio')
-        .innerJoinAndSelect('portfolio.user', 'user')
-        .select(['portfolio', 'user.id', 'user.name'])
-        .where({})
-        .getMany();
-    } else {
-      return await this.portfolioRepository
-        .createQueryBuilder('portfolio')
-        .innerJoinAndSelect('portfolio.user', 'user')
-        .select(['portfolio', 'user.id', 'user.name'])
-        .where({
-          user: {
-            id: userId,
-          },
-        })
-        .getMany();
-    }
+    const rs = await this.portfolioRepository
+      .createQueryBuilder('portfolio')
+      .innerJoinAndSelect('portfolio.user', 'user')
+      .where({
+        ...(profileId === 1
+          ? {}
+          : {
+              user: {
+                id: userId,
+              },
+            }),
+      })
+      .getMany();
+    return rs.map((p) => new ReturnPortfolioDto(p));
   }
 
   async createPortfolio(
     createPortfolioDto: CreatePortfolioDto,
     userLogged: TokenPayloadDto,
-  ) {
+  ): Promise<ReturnPortfolioDto> {
     const { userId } = userLogged;
-    const { name } = createPortfolioDto;
+    const { name, apresentation } = createPortfolioDto;
 
     const portfolioExist = await this.portfolioRepository
       .createQueryBuilder('portfolio')
@@ -60,21 +57,31 @@ export class PortfoliosService {
     }
 
     const newPortfolio = this.portfolioRepository.create({
-      ...createPortfolioDto,
+      name,
+      apresentation: apresentation || '',
       createdAt: new Date(),
       user: { id: userId },
     });
 
     const savedPortfolio = await this.portfolioRepository.save(newPortfolio);
 
-    return savedPortfolio;
+    const portfolioCreated = await this.portfolioRepository.findOne({
+      where: { id: savedPortfolio.id },
+      relations: {
+        user: {
+          projects: true,
+        },
+      },
+    });
+
+    return new ReturnPortfolioDto(portfolioCreated!);
   }
 
   async update(
     id: string,
     portfolioUpdateData: UpdatePortfolioDto,
     userLogged: TokenPayloadDto,
-  ) {
+  ): Promise<ReturnPortfolioDto> {
     const { userId, profileId } = userLogged;
 
     const portfolio = await this.portfolioRepository.findOne({
@@ -99,11 +106,13 @@ export class PortfoliosService {
       updatedAt: new Date(),
     });
 
-    return await this.portfolioRepository.findOne({
+    const portfolioUpdated = await this.portfolioRepository.findOne({
       where: {
         id,
       },
     });
+
+    return new ReturnPortfolioDto(portfolioUpdated!);
   }
 
   async delete(id: string, userLogged: TokenPayloadDto): Promise<DeleteResult> {

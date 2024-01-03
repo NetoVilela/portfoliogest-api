@@ -71,7 +71,7 @@ export class UsersService {
     userLogged: TokenPayloadDto,
   ): Promise<ReturnUserDto> {
     const { userId, profileId } = userLogged;
-    const { name, email, phone, password } = userUpdateData;
+    const { name, phone, password, status } = userUpdateData;
 
     if (profileId !== 1 && userId !== id) {
       throw new HttpException(
@@ -100,18 +100,20 @@ export class UsersService {
       );
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    const passwordHashed = !passwordMatch
-      ? await bcrypt.hash(password, await bcrypt.genSalt())
-      : undefined;
+    let passwordHashed: string | undefined = '';
+    if (password) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      passwordHashed = !passwordMatch
+        ? await bcrypt.hash(password, await bcrypt.genSalt())
+        : undefined;
+    }
 
     await this.usersRepository.update(id, {
+      status,
       name,
-      email,
       phone,
       updatedAt: new Date(),
-      password: passwordHashed,
+      password: password ? passwordHashed : user.password,
     });
 
     const updatedUser = await this.usersRepository.findOne({ where: { id } });

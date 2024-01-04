@@ -38,3 +38,12 @@ package-lock.json
 /package-lock.json
 .package-lock.json
 ./package-lock.json
+
+certificates
+/certificates
+.certificates
+./certificates
+certificates/
+
+
+data

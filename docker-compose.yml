@@ -39,7 +39,7 @@ services:
     networks:
       - network-myproject
     ports:
-      - '3000:3000'
+      - '8443:8443'
     command: sh -c 'npm install && npm run start:dev'
     restart: always
     depends_on:

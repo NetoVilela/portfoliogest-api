@@ -45,5 +45,8 @@ certificates
 ./certificates
 certificates/
 
-
 data
+docker-compose-prod.yml
+./docker-compose-prod.yml
+.docker-compose-prod.yml
+/docker-compose-prod.yml

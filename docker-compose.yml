@@ -22,6 +22,12 @@ services:
     environment:
       - NODE_ENV=dev
       - TZ=America/Recife
+      - DB_HOST=portfoliogest-database-container
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=portfoliogest
+      - DB_PORT=5432
+      - JWT_SECRET=minhasecret
     volumes:
       - ./:/usr/src/api
       - exclude:/usr/src/api/node_modules

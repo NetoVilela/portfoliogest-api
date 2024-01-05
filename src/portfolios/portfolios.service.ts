@@ -30,6 +30,7 @@ export class PortfoliosService {
               },
             }),
       })
+      .select(['portfolio', 'user.id', 'user.name', 'user.email'])
       .getMany();
     return rs.map((p) => new ReturnPortfolioDto(p));
   }

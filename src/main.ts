@@ -9,10 +9,13 @@ async function bootstrap() {
     cert: fs.readFileSync('./certificates/origin.crt'),
   };
 
+  const env = process.env.NODE_ENV;
+
   const app = await NestFactory.create(AppModule, {
-    httpsOptions,
+    ...(env === 'prod' && { httpsOptions }),
   });
+
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(8443);
+  await app.listen(3000);
 }
 bootstrap();

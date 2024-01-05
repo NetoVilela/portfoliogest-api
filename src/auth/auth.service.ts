@@ -18,7 +18,6 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-
     const isMatch = await bcrypt.compare(pass, user.password);
 
     if (!isMatch) {

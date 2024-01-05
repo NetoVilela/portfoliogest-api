@@ -16,11 +16,11 @@ services:
     networks:
       - network-myproject
   node:
-    image: 'node:20-alpine3.18'
+    image: 'node:16.13-alpine3.15'
     container_name: portfoliogest-api-container
     working_dir: /usr/src/api
     environment:
-      - NODE_ENV=dev
+      - NODE_ENV=prod
       - TZ=America/Recife
     volumes:
       - ./:/usr/src/api
@@ -40,7 +40,7 @@ services:
       - network-myproject
     ports:
       - '8443:3000'
-    command: sh -c 'npm install && npm run start:dev'
+    command: sh -c 'npm install && npm run build && npm run start:prod'
     restart: always
     depends_on:
       - database

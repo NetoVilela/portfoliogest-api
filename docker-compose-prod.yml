@@ -16,7 +16,7 @@ services:
     networks:
       - network-myproject
   node:
-    image: 'node:16.13-alpine3.15'
+    image: 'node:20-alpine3.18'
     container_name: portfoliogest-api-container
     working_dir: /usr/src/api
     environment:

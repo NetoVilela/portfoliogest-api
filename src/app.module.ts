@@ -10,7 +10,9 @@ import { ProjectsModule } from './projects/projects.module';
 import { ExperiencesModule } from './experiences/experiences.module';
 import { CoursesModule } from './courses/courses.module';
 import { ContactsModule } from './contacts/contacts.module';
-
+import { ImagesModule } from './images/images.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,6 +25,9 @@ import { ContactsModule } from './contacts/contacts.module';
       synchronize: true,
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'dist'),
+    }),
     UsersModule,
     AuthModule,
     PortfoliosModule,
@@ -31,6 +36,7 @@ import { ContactsModule } from './contacts/contacts.module';
     ExperiencesModule,
     CoursesModule,
     ContactsModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

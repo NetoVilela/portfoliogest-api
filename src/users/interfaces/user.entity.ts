@@ -1,7 +1,15 @@
 import { ExperienceEntity } from 'src/experiences/interfaces/experiences.entity';
+import { ImageEntity } from 'src/images/interfaces/image.entity';
 import { KnowledgeEntity } from 'src/knowledges/interfaces/knowledge.entity';
 import { ProjectEntity } from 'src/projects/interfaces/projects.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
@@ -40,4 +48,8 @@ export class UserEntity {
 
   @OneToMany(() => ExperienceEntity, (experience) => experience.user)
   experiences: ExperienceEntity[];
+
+  @OneToOne(() => ImageEntity, (image) => image.user)
+  @JoinColumn({ name: 'image_id', referencedColumnName: 'id' })
+  image: ImageEntity;
 }

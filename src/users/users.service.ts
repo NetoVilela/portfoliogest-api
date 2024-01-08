@@ -7,12 +7,15 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import TokenPayloadDto from 'src/auth/dtos/tokenPayload.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import { ReturnUserDto } from './dtos/returnUser.dto';
+import { ImageEntity } from 'src/images/interfaces/image.entity';
+import * as fs from 'fs';
 
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>,
-  ) {}
+    // eslint-disable-next-line prettier/prettier
+  ) { }
 
   async createUser(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const { email } = createUserDto;
@@ -21,7 +24,7 @@ export class UsersService {
     if (userExist.length > 0) {
       throw new HttpException(
         `Já existe usuário com esse email cadastrado. Por favor, escolha outro email e tente novamente.`,
-        HttpStatus.CONFLICT,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -126,5 +129,41 @@ export class UsersService {
     }
 
     return new ReturnUserDto(updatedUser);
+  }
+
+  async saveDataAvatar(userId: string, image: ImageEntity) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        image: true,
+      },
+    });
+
+    if (user) {
+      if (user.image) {
+        fs.unlink(`./dist/${user.image.filePath}`, (err) => {
+          console.log(
+            `Removendo imagem antiga do user ${user.id} e inserindo uma nova...`,
+          );
+          if (err) {
+            console.log(`Erro ao deletar imagem antiga do usuário`);
+            console.error(err);
+            return false;
+          }
+        });
+      }
+
+      await this.usersRepository.update(userId, {
+        updatedAt: new Date(),
+        image: image,
+      });
+    } else {
+      throw new HttpException(
+        `Usuário não encontrado`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 }

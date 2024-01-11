@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import getProfile from 'src/constants/profiles';
 @Injectable()
 export class AuthService {
   constructor(
@@ -32,6 +33,7 @@ export class AuthService {
       name: user.name,
       email: user.email,
       profileId: user.profileId,
+      profileName: getProfile(user.profileId),
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

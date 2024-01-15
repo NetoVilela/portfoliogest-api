@@ -47,6 +47,28 @@ export class UsersService {
     return allUsers.map((user) => new ReturnUserDto(user));
   }
 
+  async findById(
+    id: string,
+    userLogged: TokenPayloadDto,
+  ): Promise<ReturnUserDto> {
+    const { userId, profileId } = userLogged;
+
+    if (profileId === 2 && userId != id) {
+      throw new HttpException(
+        `Somente Administradores podem consultar dados de outros usuários`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const user = await this.usersRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new HttpException(`Usuário não encontrado`, HttpStatus.NOT_FOUND);
+    }
+
+    return new ReturnUserDto(user);
+  }
+
   async findByEmail(email: string): Promise<UserEntity | null> {
     return await this.usersRepository.findOne({
       where: {

@@ -25,6 +25,12 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  findById(@Param('id') id: string, @UserLogged() userLogged: TokenPayloadDto) {
+    return this.usersService.findById(id, userLogged);
+  }
+
   @Post()
   async createUser(@Body() createUser: CreateUserDto): Promise<ReturnUserDto> {
     return this.usersService.createUser(createUser);

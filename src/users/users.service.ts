@@ -74,6 +74,7 @@ export class UsersService {
       where: {
         email,
       },
+      relations: ['image'],
     });
   }
 

@@ -12,7 +12,7 @@ export class AuthService {
 
   async signIn(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
-
+    console.log(user);
     if (!user) {
       throw new HttpException(
         `Credenciais inválidas.`,
@@ -34,6 +34,7 @@ export class AuthService {
       email: user.email,
       profileId: user.profileId,
       profileName: getProfile(user.profileId),
+      avatarFilePath: user.image.filePath,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

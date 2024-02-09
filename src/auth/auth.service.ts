@@ -27,6 +27,7 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     }
+    
 
     const payload = {
       userId: user.id,
@@ -34,7 +35,7 @@ export class AuthService {
       email: user.email,
       profileId: user.profileId,
       profileName: getProfile(user.profileId),
-      avatarFilePath: user.image.filePath,
+      avatarFilePath: user.image ? user.image.filePath : null,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

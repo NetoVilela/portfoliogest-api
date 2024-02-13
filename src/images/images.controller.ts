@@ -2,8 +2,11 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   HttpException,
   HttpStatus,
+  Param,
   ParseFilePipeBuilder,
   Post,
   UploadedFile,
@@ -21,7 +24,7 @@ import * as fs from 'fs';
 @UseGuards(AuthGuard)
 @Controller('images')
 export class FilesController {
-  constructor(private readonly imagesService: ImagesService) {}
+  constructor(private readonly imagesService: ImagesService) { }
 
   @Post('upload-avatar')
   @UseInterceptors(
@@ -73,5 +76,10 @@ export class FilesController {
     }
 
     return await this.imagesService.uploadAvatar(file, body);
+  }
+
+  @Delete('remove-avatar/:id')
+  async removeAvatar(@Param('id') id: string) {
+    return await this.imagesService.removeAvatar(id, );
   }
 }

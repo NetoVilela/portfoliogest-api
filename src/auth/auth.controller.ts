@@ -11,6 +11,8 @@ import {
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
 import { AuthGuard } from './auth.guard';
+import { UserLogged } from 'src/decorators/userLogged';
+import TokenPayloadDto from './dtos/tokenPayload.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +26,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@Request() req, @UserLogged() userLogged: TokenPayloadDto) {
+    return this.authService.getProfile(req.user.id, userLogged);
   }
 }

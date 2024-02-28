@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import getProfile from 'src/constants/profiles';
+import TokenPayloadDto from './dtos/tokenPayload.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -27,18 +28,21 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-    
 
     const payload = {
-      userId: user.id,
+      id: user.id,
       name: user.name,
       email: user.email,
       profileId: user.profileId,
       profileName: getProfile(user.profileId),
-      avatarFilePath: user.image ? user.image.filePath : null,
+      avatar: user.image ? user.image.filePath : null,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async getProfile(id: string, userLogged: TokenPayloadDto) {
+    return await this.usersService.findById(id, userLogged);
   }
 }
